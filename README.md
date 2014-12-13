@@ -1,0 +1,31 @@
+Groovy Algebra
+================
+
+A (very) simple computer algebra system, implemented in groovy
+
+
+For me the purpose of this project was two-fold, to become more familiar with groovy, and to try to code
+something in the least redudant way possible.
+
+As of now, since it lacks a parser, it isn't too useful, but I plan on adding one soon.
+
+You can construct different algebraic formulea like so
+
+```
+def x = new Multiply('f1':new Num(3),'f2':new Sin('f1':new Var()))
+// I know, I'll be adding a parser soon
+```
+
+After which you can evaluate the expression by
+
+```
+print x.evaluate(4)
+```
+or differentiate it!
+
+```
+def x2 = x.derivative()
+```
+
+That's all for now!
+
