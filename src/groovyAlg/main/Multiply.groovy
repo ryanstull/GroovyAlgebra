@@ -1,4 +1,4 @@
-package groovyAlg
+package groovyAlg.main
 
 class Multiply implements BinaryOp {
 

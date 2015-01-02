@@ -1,4 +1,4 @@
-package groovyAlg
+package groovyAlg.main
 
 trait BinaryOp extends Formula{
 	MathObject f2;

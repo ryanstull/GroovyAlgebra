@@ -1,4 +1,4 @@
-package groovyAlg
+package groovyAlg.main
 
 class Num implements NonFormula{	
 	Number num
