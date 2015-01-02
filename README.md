@@ -3,10 +3,6 @@ Groovy Algebra
 
 A (very) simple computer algebra system, implemented in groovy
 
-
-For me the purpose of this project was two-fold, to become more familiar with groovy, and to try to code
-something in the least redundant way possible.
-
 As of now, since it lacks a parser, it isn't too useful, but I plan on adding one soon.
 
 You can construct different algebraic formula like so
