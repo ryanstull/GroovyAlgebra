@@ -1,4 +1,4 @@
-package groovyAlg.main
+package groovyAlg
 
 class Multiply implements BinaryOp {
 
@@ -23,6 +23,12 @@ class Multiply implements BinaryOp {
 			return new Num(0)
 		}else if(f1 instanceof Num && f2 instanceof Num){
 			return new Num(f1.num*f2.num)
+		}else if(!(f1 instanceof Num) && f2 instanceof Num){
+			def temp = f2
+			f2 = f1
+			f1 = temp
+		}else if(f1 instanceof Exponent && f2 instanceof Exponent && f1.f1==f2.f1){
+			return new Exponent('f1':f1.f1,'f2':new Add('f1':f1.f2,'f2':f2.f2)).simplify()
 		}
 
 		return this;
