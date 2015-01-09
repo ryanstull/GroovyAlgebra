@@ -7,7 +7,7 @@ You can construct different algebraic formula like so
 
 ```
 import groovyAlg.*
-import groovyAlg.parser.Parser
+import groovyAlg.parser.*
 
 def x = Parser.parse("(4*x+1)^2+2*cos(x)")
 ```
