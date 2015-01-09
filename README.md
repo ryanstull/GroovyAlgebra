@@ -3,19 +3,19 @@ Groovy Algebra
 
 A (very) simple computer algebra system, implemented in groovy
 
-As of now, since it lacks a parser, it isn't too useful, but I plan on adding one soon.
-
 You can construct different algebraic formula like so
 
 ```
-def x = new Multiply('f1':new Num(3),'f2':new Sin('f1':new Var()))
-// I know, I'll be adding a parser soon
+import groovyAlg.*
+import groovyAlg.parser.Parser
+
+def x = Parser.parse("(4*x+1)^2+2*cos(x)")
 ```
 
 After which you can evaluate the expression by
 
 ```
-print x.evaluate(4)
+assert x.evaluate(0) == 3
 ```
 or differentiate it!
 

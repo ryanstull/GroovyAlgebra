@@ -1,4 +1,4 @@
-package groovyAlg.main
+package groovyAlg
 
 class Sec implements Trig{
 
