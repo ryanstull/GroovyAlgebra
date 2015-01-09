@@ -1,4 +1,4 @@
-package groovyAlg.main
+package groovyAlg
 
 class Exponent implements BinaryOp{
 
@@ -6,7 +6,11 @@ class Exponent implements BinaryOp{
 	Closure<Number> operation = {a,b -> a**b}
 
 	MathObject derivative() {
-		null
+		if (!(f1 instanceof Num) && !(f2 instanceof Num)) {
+			throw Exception('Invalid derivative')
+		} else if (f2 instanceof Num && !(f1 instanceof Num)) {
+			return new Multiply('f1':new Multiply('f1': new Num(f2.num),'f2': new Exponent('f1':f1,'f2':new Num(f2.num-1))),'f2':f1.derivative()).simplify()
+		}
 	}
 
 	MathObject simplify() {
@@ -23,6 +27,8 @@ class Exponent implements BinaryOp{
 			return new Num(1)
 		}else if(equals(f1,0)){
 			return new Num(0)
+		}else if(f1 instanceof Num && f2 instanceof Num){
+			return new Num(Math.pow(f1.num.doubleValue(),f2.num.doubleValue()))
 		}
 
 		return this

@@ -1,7 +1,7 @@
-package groovyAlg.main
+package groovyAlg
 
 trait UnaryOp extends Formula{
-	
+
 	MathObject compose(MathObject f){
 		if(f1 instanceof NonFormula){
 			f1=f

@@ -1,4 +1,4 @@
-package groovyAlg.main
+package groovyAlg
 
 trait Formula extends MathObject{
 	MathObject f1
