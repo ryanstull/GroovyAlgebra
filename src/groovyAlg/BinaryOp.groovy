@@ -1,4 +1,4 @@
-package groovyAlg.main
+package groovyAlg
 
 trait BinaryOp extends Formula{
 	MathObject f2;
@@ -30,12 +30,16 @@ trait BinaryOp extends Formula{
 			f1Str = "("+f1.toString()+")"
 		}
 		
-		if(f2 instanceof NonFormula || f2 instanceof Trig){
+		if(f2 instanceof NonFormula || f2 instanceof Trig || (f1 instanceof Num && (f2 instanceof Exponent || f2 instanceof Trig))){
 			f2Str = f2.toString()
 		}else{
 			f2Str = "("+f2.toString()+")"
 		}
-		f1Str+"${getSymbol()}"+f2Str
+		if((f1 instanceof Num) && getSymbol()=="*"){
+			f1Str+f2Str
+		}else{
+			f1Str+"${getSymbol()}"+f2Str
+		}
 	}
 
 }

@@ -1,4 +1,4 @@
-package groovyAlg.main
+package groovyAlg
 
 class Var implements NonFormula {
 
@@ -10,5 +10,9 @@ class Var implements NonFormula {
 
 	String toString(){
 		"x"
+	}
+
+	boolean equals(Var other){
+		true
 	}
 }
