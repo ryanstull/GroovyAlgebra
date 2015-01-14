@@ -10,8 +10,8 @@ class Num implements NonFormula{
 	Num(String num){
 		this.num = Integer.valueOf(num)
 	}
-	
-	MathObject derivative() {
+
+	ArithmeticExpression derivative() {
 		new Num(0)
 	}
 	

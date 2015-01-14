@@ -1,8 +1,8 @@
 package groovyAlg
 
-trait NonFormula extends MathObject {
+trait NonFormula extends ArithmeticExpression {
 
-    MathObject simplify(){
+    ArithmeticExpression simplify(){
         this
     }
 }

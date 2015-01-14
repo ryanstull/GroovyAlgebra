@@ -1,13 +1,13 @@
 package groovyAlg
 
 trait BinaryOp extends Formula{
-	MathObject f2;
+	ArithmeticExpression f2;
 
 	Number evaluate(Number x) {
 		operation(f1.evaluate(x),f2.evaluate(x))
 	}
-	
-	MathObject compose(MathObject f){
+
+	ArithmeticExpression compose(ArithmeticExpression f){
 		if(f1 instanceof NonFormula){
 			f1=f
 		}else{
@@ -36,9 +36,13 @@ trait BinaryOp extends Formula{
 			f2Str = "("+f2.toString()+")"
 		}
 		if((f1 instanceof Num) && getSymbol()=="*"){
-			f1Str+f2Str
+			if(f1.num==-1){
+				return "-"+f2Str
+			}else{
+				return f1Str+f2Str
+			}
 		}else{
-			f1Str+"${getSymbol()}"+f2Str
+			return f1Str+"${getSymbol()}"+f2Str
 		}
 	}
 

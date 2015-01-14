@@ -5,16 +5,16 @@ class Divide implements BinaryOp {
 	String symbol = "/"
 	Closure<Number> operation = {a,b -> a/b}
 
-	MathObject derivative() {
+	ArithmeticExpression derivative() {
 		new Divide('f1':new Subtract('f1':new Multiply('f1':f1.derivative(),'f2':f2),'f2':new Multiply('f1':f1,'f2':f2.derivative())),
 				'f2':new Exponent('f1':f2,'f2':new Num(2)))
 	}
 
-	MathObject simplify(){
+	ArithmeticExpression simplify(){
 		f1=f1.simplify()
 		f2=f2.simplify()
 
-		def equals = {MathObject a,Number b -> a instanceof Num && a.num==b}
+		def equals = {ArithmeticExpression a,Number b -> a instanceof Num && a.num==b}
 
 		if(equals(f2,1)){
 			return f1

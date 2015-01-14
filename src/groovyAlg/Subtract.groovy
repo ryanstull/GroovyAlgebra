@@ -4,16 +4,16 @@ class Subtract implements BinaryOp {
 
 	String symbol = "-"
 	Closure<Number> operation = {a,b -> a-b}
-	
-	MathObject derivative() {
+
+	ArithmeticExpression derivative() {
 		new Subtract('f1':f1.derivative(),'f2':f2.derivative()).simplify()
 	}
 
-	MathObject simplify(){
+	ArithmeticExpression simplify(){
 		f1 = f1.simplify()
 		f2 = f2.simplify()
 
-		def equals = {MathObject a,Number b -> a instanceof Num && a.num==b}
+		def equals = {ArithmeticExpression a,Number b -> a instanceof Num && a.num==b}
 
 		if(equals(f1,0)){
 			return f2.negate()

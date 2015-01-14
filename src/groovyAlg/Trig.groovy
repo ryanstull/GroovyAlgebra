@@ -6,7 +6,7 @@ trait Trig extends UnaryOp{
 		"${getSymbol()}(${f1.toString()})"
 	}
 
-	MathObject simplify(){
+	ArithmeticExpression simplify(){
 		this
 	}
 }

@@ -9,14 +9,14 @@ class Parser {
         lexer = new Lex_Analyzer(formula)
     }
 
-    static MathObject parse(String formula){
+    static Expression parse(String formula){
         Parser p = new Parser(formula)
         p.lexer.lex()
         return p.ex1().simplify()
     }
 
-    MathObject ex1(){
-        MathObject f1,f2
+    Expression ex1(){
+        Expression f1,f2
 
         f1 = ex2()
 
@@ -33,8 +33,8 @@ class Parser {
         return f1
     }
 
-    MathObject ex2(){
-        MathObject f1,f2
+    Expression ex2(){
+        Expression f1,f2
 
         f1 = ex3()
 
@@ -51,8 +51,8 @@ class Parser {
         return f1
     }
 
-    MathObject ex3(){
-        MathObject f1,f2
+    Expression ex3(){
+        Expression f1,f2
 
         f1 = ex4()
 
@@ -65,8 +65,8 @@ class Parser {
         return f1
     }
 
-    MathObject ex4(){
-        MathObject f1,f2
+    Expression ex4(){
+        Expression f1,f2
 
         switch (lexer.token){
             case TOKEN_TYPE.NUM:

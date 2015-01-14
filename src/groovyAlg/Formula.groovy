@@ -1,10 +1,10 @@
 package groovyAlg
 
-trait Formula extends MathObject{
-	MathObject f1
+trait Formula extends ArithmeticExpression{
+	ArithmeticExpression f1
 	Closure<Num> operation
 	String symbol
 	
-	abstract MathObject compose(MathObject f)
+	abstract ArithmeticExpression compose(ArithmeticExpression f)
 
 }
