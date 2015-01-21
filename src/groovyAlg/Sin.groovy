@@ -1,22 +1,25 @@
 package groovyAlg
 
+import groovy.transform.InheritConstructors
+
 /**
  * This class represents the sin function
  *
  * @author Ryan Stull
  */
-class Sin implements Trig {
+@InheritConstructors
+class Sin extends Trig {
 
-	String symbol = "sin"
+    String symbol = "sin"
 
-	//References the java.Math implementation of sin
-	Closure<Number> operation = Math.&sin
+    //References the java.Math implementation of sin
+    Closure<Number> operation = Math.&sin
 
-	/**
-	 * @return cos(f1)*f1'
-	 */
-	ArithmeticExpression derivative() {
-		new Multiply('f1': new Cos('f1':f1), 'f2': f1.derivative()).simplify()
-	}
+    /**
+     * @return cos ( f1 ) *f1'
+     */
+    ArithmeticExpression derivative() {
+        new Multiply([new Cos(terms[0]), terms[0].derivative()]).simplify()
+    }
 
 }

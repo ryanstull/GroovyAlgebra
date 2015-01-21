@@ -5,72 +5,87 @@ import groovyAlg.*
 class Parser {
     Lex_Analyzer lexer;
 
-    Parser(String formula){
+    Parser(String formula) {
         lexer = new Lex_Analyzer(formula)
     }
 
-    static Expression parse(String formula){
+    static ArithmeticExpression parse(String formula) {
         Parser p = new Parser(formula)
         p.lexer.lex()
         return p.ex1().simplify()
     }
 
-    Expression ex1(){
-        Expression f1,f2
+    private ArithmeticExpression ex1() {
+        List<ArithmeticExpression> f = []
 
-        f1 = ex2()
+        f << ex2()
 
-        if(lexer.token == TOKEN_TYPE.ADD_OP){
-            lexer.lex()
-            f2 = ex1()
-            return new Add('f1':f1,'f2':f2)
-        }else if(lexer.token == TOKEN_TYPE.SUB_OP){
-            lexer.lex()
-            f2 = ex1()
-            return new Subtract('f1':f1,'f2':f2)
+        while(lexer.token == TOKEN_TYPE.ADD || lexer.token == TOKEN_TYPE.SUB){
+            switch (lexer.token){
+                case TOKEN_TYPE.ADD:
+                    lexer.lex()
+                    f << ex2()
+                    break
+
+                case TOKEN_TYPE.SUB:
+                    lexer.lex()
+                    f << ex2().negative()
+                    break
+            }
         }
 
-        return f1
+        return new Add(f).simplify()
     }
 
-    Expression ex2(){
-        Expression f1,f2
+    private ArithmeticExpression ex2() {
+        List<ArithmeticExpression> f = []
 
-        f1 = ex3()
+        f << ex3()
 
-        if(lexer.token == TOKEN_TYPE.MULT_OP){
-            lexer.lex()
-            f2 = ex2()
-            return new Multiply('f1':f1,'f2':f2)
-        }else if(lexer.token == TOKEN_TYPE.DIV_OP){
-            lexer.lex()
-            f2 = ex2()
-            return new Divide('f1':f1,'f2':f2)
+        if (lexer.token == TOKEN_TYPE.MULT) {
+            while (lexer.token == TOKEN_TYPE.MULT) {
+                lexer.lex()
+                f << ex3()
+            }
+            return new Multiply(f)
         }
 
-        return f1
+
+        if (lexer.token == TOKEN_TYPE.DIV) {
+            lexer.lex()
+            f << ex3()
+            return new Divide(f[0], f[1])
+        }
+
+        return f[0]
     }
 
-    Expression ex3(){
-        Expression f1,f2
+    private ArithmeticExpression ex3() {
+        ArithmeticExpression f1, f2
 
         f1 = ex4()
 
-        if(lexer.token == TOKEN_TYPE.POW_OP){
+        if (lexer.token == TOKEN_TYPE.POW) {
             lexer.lex()
-            f2 = ex3()
-            return new Exponent('f1':f1,'f2':f2)
+            f2 = ex4()
+            return new Exponent(f1, f2)
         }
 
         return f1
     }
 
-    Expression ex4(){
-        Expression f1,f2
+    private ArithmeticExpression ex4() {
+        ArithmeticExpression f1, f2
 
-        switch (lexer.token){
+        switch (lexer.token) {
             case TOKEN_TYPE.NUM:
                 f1 = new Num(lexer.lexeme)
+                lexer.lex()
+                break
+
+            case TOKEN_TYPE.SUB:
+                lexer.lex()
+                f1=new Num(Integer.valueOf(lexer.lexeme)*-1)
                 lexer.lex()
                 break
 
@@ -79,9 +94,9 @@ class Parser {
                 lexer.lex()
                 break
 
-            case [TOKEN_TYPE.SIN,TOKEN_TYPE.COS,TOKEN_TYPE.TAN,TOKEN_TYPE.CSC,TOKEN_TYPE.SEC,TOKEN_TYPE.COT,TOKEN_TYPE.LOG,'inlist']:
+            case [TOKEN_TYPE.SIN, TOKEN_TYPE.COS, TOKEN_TYPE.TAN, TOKEN_TYPE.CSC, TOKEN_TYPE.SEC, TOKEN_TYPE.COT, TOKEN_TYPE.LOG, 'inlist']:
                 Closure constructor;
-                switch (lexer.token){
+                switch (lexer.token) {
                     case TOKEN_TYPE.SIN:
                         constructor = Sin.metaClass.&invokeConstructor
                         break
@@ -105,21 +120,25 @@ class Parser {
                         constructor = Cot.metaClass.&invokeConstructor
                         break
 
+                    case TOKEN_TYPE.LOG:
+                        constructor = Log.metaClass.&invokeConstructor
+                        break
+
                     default:
                         Lex_Analyzer.error()
                 }
 
                 lexer.lex()
-                if(lexer.token==TOKEN_TYPE.L_PAREN){
+                if (lexer.token == TOKEN_TYPE.L_PAREN) {
                     lexer.lex()
                     f2 = ex1()
-                    f1 = constructor('f1':f2)
-                    if(lexer.token == TOKEN_TYPE.R_PAREN){
+                    f1 = constructor(f2)
+                    if (lexer.token == TOKEN_TYPE.R_PAREN) {
                         lexer.lex()
-                    }else{
+                    } else {
                         Lex_Analyzer.error()
                     }
-                }else{
+                } else {
                     Lex_Analyzer.error()
                 }
 
@@ -128,9 +147,9 @@ class Parser {
             case TOKEN_TYPE.L_PAREN:
                 lexer.lex()
                 f1 = ex1()
-                if(lexer.token == TOKEN_TYPE.R_PAREN){
+                if (lexer.token == TOKEN_TYPE.R_PAREN) {
                     lexer.lex()
-                }else{
+                } else {
                     Lex_Analyzer.error()
                 }
                 break

@@ -1,7 +1,7 @@
 Groovy Algebra
 ================
 
-A simple computer algebra system, implemented in groovy
+A (very) simple computer algebra system, implemented in groovy
 
 You can construct different algebraic formula like so
 

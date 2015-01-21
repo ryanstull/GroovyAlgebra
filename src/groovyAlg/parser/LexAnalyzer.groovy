@@ -1,7 +1,5 @@
 package groovyAlg.parser
 
-import com.sun.media.sound.InvalidDataException
-
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
 
@@ -13,7 +11,7 @@ class Lex_Analyzer {
     CHAR_CLASS next_char_class
     CharacterIterator input_tokenizer
 
-    Lex_Analyzer(String text){
+    Lex_Analyzer(String text) {
         input = text
         lexeme = ""
         input_tokenizer = new StringCharacterIterator(text)
@@ -21,44 +19,44 @@ class Lex_Analyzer {
         setCharClass()
     }
 
-    void addChar(){
-        lexeme+=next_char
+    void addChar() {
+        lexeme += next_char
     }
 
-    void setNextChar(){
+    void setNextChar() {
         next_char = input_tokenizer.next()
         setCharClass()
     }
 
-    void setCharClass(){
-        if(next_char != "DONE"){
-            if(next_char.matches("[a-zA-Z]")){
+    void setCharClass() {
+        if (next_char != "DONE") {
+            if (next_char.matches("[a-zA-Z]")) {
                 next_char_class = CHAR_CLASS.LETTER
-            }else if (next_char.matches("[0-9]")){
+            } else if (next_char.matches("[0-9]")) {
                 next_char_class = CHAR_CLASS.DIGIT
-            }else{
+            } else {
                 next_char_class = CHAR_CLASS.OTHER
             }
-        }else{
+        } else {
             next_char_class = CHAR_CLASS.END
         }
     }
 
-    TOKEN_TYPE lex(){
+    TOKEN_TYPE lex() {
         lexeme = ""
 
-        switch (next_char_class){
+        switch (next_char_class) {
             case CHAR_CLASS.LETTER:
                 addChar()
                 setNextChar()
-                while (next_char_class == CHAR_CLASS.LETTER){
-                    switch (lexeme){
+                while (next_char_class == CHAR_CLASS.LETTER) {
+                    switch (lexeme) {
                         case 's':
-                            switch (next_char){
+                            switch (next_char) {
                                 case 'i':
                                     addChar()
                                     setNextChar()
-                                    if(next_char=='n'){
+                                    if (next_char == 'n') {
                                         addChar()
                                         setNextChar()
                                         return token = TOKEN_TYPE.SIN
@@ -68,7 +66,7 @@ class Lex_Analyzer {
                                 case 'e':
                                     addChar()
                                     setNextChar()
-                                    if (next_char=='c'){
+                                    if (next_char == 'c') {
                                         addChar()
                                         setNextChar()
                                         return token = TOKEN_TYPE.SEC
@@ -78,11 +76,11 @@ class Lex_Analyzer {
                             break
 
                         case 'c':
-                            switch (next_char){
+                            switch (next_char) {
                                 case 'o':
                                     addChar()
                                     setNextChar()
-                                    switch (next_char){
+                                    switch (next_char) {
                                         case 's':
                                             addChar()
                                             setNextChar()
@@ -98,20 +96,20 @@ class Lex_Analyzer {
                                 case 's':
                                     addChar()
                                     setNextChar()
-                                    if (next_char=='c'){
+                                    if (next_char == 'c') {
                                         addChar()
                                         setNextChar()
-                                        return token = TOKEN_TYPE.SEC
+                                        return token = TOKEN_TYPE.CSC
                                     }
                                     break
                             }
                             break
 
                         case 't':
-                            if(next_char=='a'){
+                            if (next_char == 'a') {
                                 addChar()
                                 setNextChar()
-                                if (next_char=='n'){
+                                if (next_char == 'n') {
                                     addChar()
                                     setNextChar()
                                     return token = TOKEN_TYPE.TAN
@@ -120,10 +118,10 @@ class Lex_Analyzer {
                             break
 
                         case 'l':
-                            if(next_char=='o'){
+                            if (next_char == 'o') {
                                 addChar()
                                 setNextChar()
-                                if (next_char=='g'){
+                                if (next_char == 'g') {
                                     addChar()
                                     setNextChar()
                                     return token = TOKEN_TYPE.LOG
@@ -139,7 +137,7 @@ class Lex_Analyzer {
             case CHAR_CLASS.DIGIT:
                 addChar()
                 setNextChar()
-                while (next_char_class == CHAR_CLASS.DIGIT){
+                while (next_char_class == CHAR_CLASS.DIGIT) {
                     addChar()
                     setNextChar()
                 }
@@ -160,35 +158,39 @@ class Lex_Analyzer {
         return token
     }
 
-    TOKEN_TYPE lookup(char c){
-        lexeme+=c;
-        switch (c){
+    TOKEN_TYPE lookup(char c) {
+        lexeme += c;
+        switch (c) {
             case '(': token = TOKEN_TYPE.L_PAREN; break
             case ')': token = TOKEN_TYPE.R_PAREN; break
-            case '+': token = TOKEN_TYPE.ADD_OP; break
-            case '-': token = TOKEN_TYPE.SUB_OP; break
-            case '*': token = TOKEN_TYPE.MULT_OP; break
-            case '/': token = TOKEN_TYPE.DIV_OP; break
-            case '^': token = TOKEN_TYPE.POW_OP; break
+            case '+': token = TOKEN_TYPE.ADD; break
+            case '-': token = TOKEN_TYPE.SUB; break
+            case '*': token = TOKEN_TYPE.MULT; break
+            case '/': token = TOKEN_TYPE.DIV; break
+            case '^': token = TOKEN_TYPE.POW; break
+            case '|': token = TOKEN_TYPE.OR; break
+            case '&': token = TOKEN_TYPE.AND; break
+            case '=': token = TOKEN_TYPE.EQ; break
             default: token = TOKEN_TYPE.END; break
         }
         token
     }
 
-    static void error(){
-        throw new InvalidDataException('Invalid syntax detected')
+    static void error() {
+        throw new InputMismatchException("Invalid Syntax for Expression")
     }
 
 }
 
-enum TOKEN_TYPE{
-    NUM,VAR,
-    ADD_OP,SUB_OP,MULT_OP,DIV_OP,POW_OP,
-    SIN,COS,TAN,SEC,CSC,COT,LOG,
-    L_PAREN,R_PAREN,
+enum TOKEN_TYPE {
+    NUM, VAR,
+    ADD, SUB, MULT, DIV, POW,
+    SIN, COS, TAN, SEC, CSC, COT, LOG,
+    OR, NOR, AND, NAND, EQ, XOR, IMPL,//TODO Implement logical operations
+    L_PAREN, R_PAREN,
     END
 }
 
-enum CHAR_CLASS{
-    LETTER,DIGIT,OTHER,END
+enum CHAR_CLASS {
+    LETTER, DIGIT, OTHER, END
 }

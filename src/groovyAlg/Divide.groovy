@@ -1,29 +1,31 @@
 package groovyAlg
 
-class Divide implements BinaryOp {
+import groovy.transform.InheritConstructors
 
-	String symbol = "/"
-	Closure<Number> operation = {a,b -> a/b}
+@InheritConstructors
+class Divide extends BinaryOp {
 
-	ArithmeticExpression derivative() {
-		new Divide('f1':new Subtract('f1':new Multiply('f1':f1.derivative(),'f2':f2),'f2':new Multiply('f1':f1,'f2':f2.derivative())),
-				'f2':new Exponent('f1':f2,'f2':new Num(2)))
-	}
+    String symbol = "/"
+    Closure<Number> operation = { a, b -> a / b }
 
-	ArithmeticExpression simplify(){
-		f1=f1.simplify()
-		f2=f2.simplify()
+    ArithmeticExpression derivative() {
+        new Divide(new Add([new Multiply([terms[0].derivative(), terms[1]]), new Multiply([new Num(-1), terms[0], terms[1].derivative()])]), new Exponent(terms[1], new Num(2)))
+    }
 
-		def equals = {ArithmeticExpression a,Number b -> a instanceof Num && a.num==b}
+    ArithmeticExpression simplify() {
+        terms[0] = terms[0].simplify()
+        terms[1] = terms[1].simplify()
 
-		if(equals(f2,1)){
-			return f1
-		}else if(equals(f1,0)){
-			return new Num(0)
-		}else if(f1 instanceof Num && f2 instanceof Num){
-			return new Num(f1.num/f2.num)
-		}
+        def equals = { ArithmeticExpression a, Number b -> a instanceof Num && a.num == b }
 
-		return this;
-	}
+        if (equals(terms[1], 1)) {
+            return terms[0]
+        } else if (equals(terms[1], 0)) {
+            return new Num(0)
+        } else if (terms[0] instanceof Num && terms[1] instanceof Num) {
+            return new Num(terms[0].num / terms[1].num)
+        }
+
+        return this;
+    }
 }
