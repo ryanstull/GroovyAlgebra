@@ -3,20 +3,29 @@ package groovyAlg
 /**
  * Created by ryan on 1/13/15.
  */
-trait MultiOp extends Formula{
-    ArrayList<ArithmeticExpression> terms
-    Closure<Double> getStart
+abstract class MultiOp extends Formula {
+    Number identity
 
-    Number evaluate(Number x){
-        def rtrn = getStart()
-        terms.each {
-            operation(rtrn,it)
-        }
-        return rtrn
+    MultiOp(Collection<ArithmeticExpression> terms = []) {
+        this.terms = terms
     }
 
-    ArithmeticExpression compose(ArithmeticExpression f){
-        terms.each {
+    MultiOp(ArithmeticExpression... terms) {
+        this.terms = terms
+    }
+
+    void addTerm(ArithmeticExpression f) {
+        terms.add(f)
+    }
+
+    Number evaluate(Number x) {
+        terms.inject(getIdentity(), {
+            sum, term -> operation(sum, term.evaluate(x))
+        })
+    }
+
+    ArithmeticExpression compose(ArithmeticExpression f) {
+        terms.collect {
             it.compose(f)
         }
     }

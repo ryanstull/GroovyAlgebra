@@ -1,9 +1,8 @@
 package groovyAlg
-
 /**
  * Created by ryan on 1/13/15.
  */
-trait ArithmeticExpression extends Expression{
+abstract class ArithmeticExpression extends Expression {
 
     /**
      * This function returns the numeric value of the math object.
@@ -12,6 +11,8 @@ trait ArithmeticExpression extends Expression{
      * @return The value of the expression evaluated for the given x value
      */
     abstract Number evaluate(Number x)
+
+    abstract ArithmeticExpression compose(ArithmeticExpression f)
 
     abstract ArithmeticExpression simplify()
 
@@ -23,8 +24,8 @@ trait ArithmeticExpression extends Expression{
      */
     abstract ArithmeticExpression derivative()
 
-    ArithmeticExpression negative(){
-        new Multiply('f1':this,'f2':new Num(-1)).simplify()
+    ArithmeticExpression negative() {
+        new Multiply([this,new Num(-1)]).simplify()
     }
 
     /**
@@ -33,8 +34,8 @@ trait ArithmeticExpression extends Expression{
      * @param b The other math object to add to this one
      * @return An expression which is the addition of the two objects
      */
-    ArithmeticExpression plus(ArithmeticExpression b){
-        new Add('f1':this,'f2':b).simplify()
+    ArithmeticExpression plus(ArithmeticExpression b) {
+        new Add([this, b]).simplify()
     }
 
     /**
@@ -43,8 +44,8 @@ trait ArithmeticExpression extends Expression{
      * @param b The other math object to add to this one
      * @return An expression which is the addition of the two objects
      */
-    ArithmeticExpression minus(ArithmeticExpression b){
-        new Subtract('f1':this,'f2':b).simplify()
+    ArithmeticExpression minus(ArithmeticExpression b) {
+        new Add([this, b * new Num(-1)]).simplify()
     }
 
     /**
@@ -53,8 +54,8 @@ trait ArithmeticExpression extends Expression{
      * @param b The other math object to add to this one
      * @return An expression which is the addition of the two objects
      */
-    ArithmeticExpression multiply(ArithmeticExpression b){
-        new Multiply('f1':this,'f2':b).simplify()
+    ArithmeticExpression multiply(ArithmeticExpression b) {
+        new Multiply([this, b]).simplify()
     }
 
     /**
@@ -63,8 +64,8 @@ trait ArithmeticExpression extends Expression{
      * @param b The other math object to add to this one
      * @return An expression which is the addition of the two objects
      */
-    ArithmeticExpression div(ArithmeticExpression b){
-        new Divide('f1':this,'f2':b).simplify()
+    ArithmeticExpression div(ArithmeticExpression b) {
+        new Divide(this, b).simplify()
     }
 
     /**
@@ -73,7 +74,8 @@ trait ArithmeticExpression extends Expression{
      * @param b The other math object to add to this one
      * @return An expression which is the addition of the two objects
      */
-    ArithmeticExpression power(ArithmeticExpression b){
-        new Exponent('f1':this,'f2':b).simplify()
+    ArithmeticExpression power(ArithmeticExpression b) {
+        new Exponent(this, b).simplify()
     }
+
 }

@@ -1,10 +1,8 @@
 package groovyAlg
-
 /**
  * Created by ryan on 1/13/15.
  */
-trait Expression {
-
+abstract class Expression {
 
     /**
      * Returns a simplified version of the expression

@@ -1,16 +1,22 @@
 package groovyAlg
 
-trait UnaryOp extends Formula{
+abstract class UnaryOp extends Formula {
 
-	Number evaluate(Number x){
-		operation(x)
-	}
+    UnaryOp(ArithmeticExpression f = new Var()) {
+        terms = [f]
+    }
 
-	ArithmeticExpression compose(ArithmeticExpression f){
-		if(f1 instanceof NonFormula){
-			f1=f
-		}else{
-			f1=f1.compose(f)
-		}
-	}
+    Number evaluate(Number x) {
+        operation(x)
+    }
+
+    ArithmeticExpression compose(ArithmeticExpression f) {
+        def rtrn = (UnaryOp) this.clone()
+        if (rtrn.terms[0] instanceof NonFormula) {
+            rtrn.terms[0] = f
+        } else {
+            rtrn.terms[0] = rtrn.terms[0].compose(f)
+        }
+        return rtrn
+    }
 }
