@@ -2,10 +2,17 @@ package groovyAlg
 
 import groovyAlg.parser.Parser
 
-def x = Parser.parse("x+5")
+def x = Parser.parse("2*x*3*x^3")
 
-def y = Parser.parse("2+x")
+println x
 
-println x.evaluate(2)
+def y = Parser.parse("sin(x)^4")
 
-println x==y
+println y
+
+def z = x*y
+
+println z
+
+println z.derivative()
+

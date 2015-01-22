@@ -1,7 +1,9 @@
 package groovyAlg
+import groovy.transform.AutoClone
 /**
  * Created by ryan on 1/13/15.
  */
+@AutoClone
 abstract class Expression {
 
     /**

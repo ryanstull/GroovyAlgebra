@@ -12,7 +12,8 @@ class Parser {
     static ArithmeticExpression parse(String formula) {
         Parser p = new Parser(formula)
         p.lexer.lex()
-        return p.ex1().simplify()
+        def rtrn = p.ex1().simplify()
+        return rtrn
     }
 
     private ArithmeticExpression ex1() {
@@ -20,8 +21,8 @@ class Parser {
 
         f << ex2()
 
-        while(lexer.token == TOKEN_TYPE.ADD || lexer.token == TOKEN_TYPE.SUB){
-            switch (lexer.token){
+        while (lexer.token == TOKEN_TYPE.ADD || lexer.token == TOKEN_TYPE.SUB) {
+            switch (lexer.token) {
                 case TOKEN_TYPE.ADD:
                     lexer.lex()
                     f << ex2()
@@ -85,7 +86,7 @@ class Parser {
 
             case TOKEN_TYPE.SUB:
                 lexer.lex()
-                f1=new Num(Integer.valueOf(lexer.lexeme)*-1)
+                f1 = new Num(Integer.valueOf(lexer.lexeme) * -1)
                 lexer.lex()
                 break
 

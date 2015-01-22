@@ -31,7 +31,14 @@ class Var extends NonFormula {
         f
     }
 
-    static boolean equals(Var other) {
-        true
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (!(o instanceof Var)) return false
+
+        return true
+    }
+
+    int hashCode() {
+        return 0
     }
 }
