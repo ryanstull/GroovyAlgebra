@@ -25,7 +25,7 @@ abstract class ArithmeticExpression extends Expression {
     abstract ArithmeticExpression derivative()
 
     ArithmeticExpression negative() {
-        new Multiply([this,new Num(-1)]).simplify()
+        new Multiply([this, new Num(-1)]).simplify()
     }
 
     /**
@@ -45,7 +45,7 @@ abstract class ArithmeticExpression extends Expression {
      * @return An expression which is the addition of the two objects
      */
     ArithmeticExpression minus(ArithmeticExpression b) {
-        new Add([this, b * new Num(-1)]).simplify()
+        new Add([this, b.negative()]).simplify()
     }
 
     /**

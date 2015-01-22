@@ -4,6 +4,7 @@ import groovy.transform.InheritConstructors
 
 /**
  * Created by ryan on 1/16/15.
+ * TODO make log a binary function
  */
 @InheritConstructors
 class Log extends UnaryOp {
@@ -12,7 +13,7 @@ class Log extends UnaryOp {
     Closure<Number> operation = Math.&log10
 
     ArithmeticExpression derivative() {
-        null
+        null//TODO
     }
 
     String toString() {
@@ -20,6 +21,6 @@ class Log extends UnaryOp {
     }
 
     ArithmeticExpression simplify() {
-        this
+        this//TODO
     }
 }

@@ -10,30 +10,33 @@ class Exponent extends BinaryOp {
 
     ArithmeticExpression derivative() {
         if (terms[1] instanceof Num && !(terms[0] instanceof Num)) {
-            new Multiply([new Num(terms[1].num-1),terms[0],terms[0].derivative()])
+            return new Multiply([new Num(terms[1].num), new Exponent(terms[0],new Num(terms[1].num - 1)), terms[0].derivative()])
         }
-        throw Exception('Invalid derivative')
+        throw new Exception('Invalid derivative')
     }
 
     ArithmeticExpression simplify() {
-        terms[0] = terms[0].simplify()
-        terms[1] = terms[1].simplify()
+        Exponent rtrn = this.clone()
+        def newTerms = rtrn.terms
+
+        newTerms[0] = newTerms[0].simplify()
+        newTerms[1] = newTerms[1].simplify()
 
         def equals = { ArithmeticExpression a, Number b -> a instanceof Num && a.num == b }
 
-        if (equals(terms[0], 1)) {
+        if (equals(newTerms[0], 1)) {
             return new Num(1)
-        } else if (equals(terms[1], 1)) {
-            return terms[0]
-        } else if (equals(terms[1], 0)) {
+        } else if (equals(newTerms[1], 1)) {
+            return newTerms[0]
+        } else if (equals(newTerms[1], 0)) {
             return new Num(1)
-        } else if (equals(terms[0], 0)) {
+        } else if (equals(newTerms[0], 0)) {
             return new Num(0)
-        } else if (terms[0] instanceof Num && terms[1] instanceof Num) {
-            return new Num(Math.pow(terms[0].num.doubleValue(), terms[1].num.doubleValue()))
+        } else if (newTerms[0] instanceof Num && newTerms[1] instanceof Num) {
+            return new Num(Math.pow(newTerms[0].num.doubleValue(), newTerms[1].num.doubleValue()))
         }
 
-        return this
+        return rtrn
     }
 
 }

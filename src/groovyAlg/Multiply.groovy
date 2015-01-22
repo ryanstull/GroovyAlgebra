@@ -18,45 +18,85 @@ class Multiply extends MultiOp {
     }
 
     ArithmeticExpression simplify() {
+        Multiply rtrn = this.clone()
+        def newTerms = rtrn.terms
+
         for (int i = 0; i < terms.size(); i++) {
-            terms[i] = terms[i].simplify()
+            newTerms[i] = terms[i].simplify()
         }
+        for (int i = 0; i < newTerms.size(); i++) {
+            if(newTerms[i] instanceof Multiply){
+                newTerms.addAll(newTerms[i].terms)
+                newTerms.remove(i)
+            }
+        }
+
         if (terms.contains(new Num(0))) {
             return new Num(0)
         }
 
-        terms = terms.findAll() {
-            it != new Num(1)
+        newTerms.retainAll{
+            it!=new Num(1)
         }
 
-        def map = new HashMap<ArithmeticExpression,List<ArithmeticExpression>>()
-        terms.each {
+        for(int i=newTerms.size()-1;i>=0;i--){
+            if(newTerms[i] instanceof Num){
+                for(int j=i-1;j>=0;j--){
+                    if(newTerms[j] instanceof Num){
+                        newTerms[j] = new Num(newTerms[j].num*newTerms[i].num)
+                        newTerms.remove(i)
+                    }
+                }
+            }
+        }
+
+        if (rtrn.terms.size()==1){
+            return rtrn.terms[0]
+        }
+
+        def map = new HashMap<ArithmeticExpression, List<ArithmeticExpression>>()
+        for(it in newTerms){
             def func
             if (it instanceof Exponent) {
                 func = it.terms[0]
-                if(! map[func]){
-                    map.put(func,[])
+                if (!map.containsKey(func)) {
+                    map.put(func, [])
                 }
                 map[func] << it.terms[1]
             } else {
                 func = it
-                if(! map[func]){
-                    map.put(func,[])
+                if (!map.containsKey(func)) {
+                    map.put(func, [])
                 }
                 map[func] << new Num(1)
             }
         }
 
-        def newTerms = []
+        def terms2 = []
         map.each { k, v ->
-            newTerms << new Exponent(k,new Add(v))
+            if (v.size()==1 && v[0]==new Num(1)){
+                terms2 << k
+            }else{
+                terms2 << new Exponent(k, new Add(v).simplify())
+            }
+
         }
-        terms = newTerms
 
+        rtrn.terms = terms2
+        newTerms = rtrn.terms
 
+        for (int i = 0; i < newTerms.size(); i++) {
+            newTerms[i] = newTerms[i].simplify()
+        }
+
+        if (rtrn.terms.size()==1){
+            return rtrn.terms[0]
+        }
+        //TODO add ordering for terms in multiplication
+        return rtrn
     }
 
     String toString() {
-        terms.collect {it.toString()}.join(symbol)
+        terms.collect { it.toString() }.join(symbol)
     }
 }

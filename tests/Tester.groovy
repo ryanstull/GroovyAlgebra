@@ -10,6 +10,9 @@ public class MyTestSuite extends TestSuite {
         GroovyTestSuite gsuite = new GroovyTestSuite();
         suite.addTestSuite(gsuite.compile(TEST_ROOT + "ParserTest.groovy"));
         suite.addTestSuite(gsuite.compile(TEST_ROOT + "FormulaTest.groovy"));
+        suite.addTestSuite(gsuite.compile(TEST_ROOT + "AddTest.groovy"));
+        suite.addTestSuite(gsuite.compile(TEST_ROOT + "MultiplyTest.groovy"));
+        suite.addTestSuite(gsuite.compile(TEST_ROOT + "VarTest.groovy"));
         return suite;
     }
 }
