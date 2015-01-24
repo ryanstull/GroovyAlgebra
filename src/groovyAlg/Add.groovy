@@ -2,6 +2,13 @@ package groovyAlg
 
 import groovy.transform.InheritConstructors
 
+/**
+ * This class represents an addition of many arithmetic expressions
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2014-12-12
+ * @version 1.1
+ */
 @InheritConstructors
 class Add extends MultiOp {
 
@@ -9,10 +16,16 @@ class Add extends MultiOp {
     Closure<Number> operation = { a, b -> a + b }
     Number identity = 0
 
+    /**
+     * @return The derivative of an addition
+     */
     ArithmeticExpression derivative() {
         new Add(terms.collect { it.derivative() }).simplify()
     }
 
+    /**
+     * @return A simplified version of the given addition
+     */
     ArithmeticExpression simplify() {
         Add rtrn = this.clone()
         def newTerms = rtrn.terms
@@ -88,11 +101,13 @@ class Add extends MultiOp {
         return rtrn
     }
 
+    //TODO add factorization
+
     String toString() {
         String rtrn = ""
         for(ArithmeticExpression term: terms){
             if(!term.is(terms.first()) && !(term instanceof Num && term.num<0)){
-                rtrn+="+"
+                rtrn+=" + "
             }
             rtrn += term.toString()
         }

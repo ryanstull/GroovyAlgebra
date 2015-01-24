@@ -3,11 +3,14 @@ package groovyAlg
 import groovy.transform.InheritConstructors
 
 /**
- * Created by ryan on 1/16/15.
- * TODO make log a binary function
+ * This class represents the logarithm
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2015-1-16
+ * @vesion  1.0
  */
 @InheritConstructors
-class Log extends UnaryOp {
+class Log extends BinaryOp {
 
     String symbol = "log"
     Closure<Number> operation = Math.&log10
@@ -21,6 +24,6 @@ class Log extends UnaryOp {
     }
 
     ArithmeticExpression simplify() {
-        this//TODO
+        this
     }
 }

@@ -3,9 +3,11 @@ package groovyAlg
 import groovy.transform.InheritConstructors
 
 /**
- * This class represents the sec function
+ * This class represents the secant function
  *
- * @author Ryan Stull
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2014-12-12
+ * @vesion  1.0
  */
 @InheritConstructors
 class Sec extends Trig {

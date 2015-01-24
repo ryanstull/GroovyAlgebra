@@ -2,6 +2,13 @@ package groovyAlg
 
 import groovy.transform.InheritConstructors
 
+/**
+ * This class represents the cosecant function
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2014-12-12
+ * @vesion  1.0
+ */
 @InheritConstructors
 class Csc extends Trig {
 

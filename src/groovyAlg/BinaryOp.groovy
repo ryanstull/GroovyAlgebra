@@ -1,5 +1,14 @@
 package groovyAlg
 
+/**
+ * This class represents an abstract expression which has two sub-expression
+ * For example a division is a sub-class of a BinaryOp because it has two sub expressions,
+ * a numerator and a denominator
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2014-12-12
+ * @version 1.0
+ */
 abstract class BinaryOp extends Formula {
 
     BinaryOp(ArithmeticExpression f1 = new Var(), ArithmeticExpression f2 = new Var()) {
@@ -10,6 +19,9 @@ abstract class BinaryOp extends Formula {
         operation(terms[0].evaluate(x), terms[1].evaluate(x))
     }
 
+    /**
+     * {@inheritDoc}
+     */
     ArithmeticExpression compose(ArithmeticExpression f) {
         def rtrn = (BinaryOp) this.clone()
         if (rtrn.terms[0] instanceof NonFormula) {

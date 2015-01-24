@@ -5,7 +5,9 @@ import groovy.transform.InheritConstructors
 /**
  * This class represents the sin function
  *
- * @author Ryan Stull
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2014-12-12
+ * @vesion  1.0
  */
 @InheritConstructors
 class Tan extends Trig {

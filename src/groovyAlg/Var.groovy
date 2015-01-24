@@ -1,7 +1,12 @@
 package groovyAlg
 
 /**
- * This class represents a variable
+ * This class represents a variable, such as x, which when evaluated merely returns the value given to it
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2014-12-12
+ * @vesion  1.0
+ *
  * TODO add support for different simultaneous variables, such as x,y,z etc..
  */
 class Var extends NonFormula {
@@ -9,7 +14,7 @@ class Var extends NonFormula {
     /**
      * Evaluates a variable which simply returns the value passed as an argument
      *
-     * @param x The value to evaluate the variable at
+     * @param x The value to evaluate the variablne at
      * @return The value passed as a parameter
      */
     Number evaluate(Number x) { x }

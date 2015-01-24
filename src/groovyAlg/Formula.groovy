@@ -4,6 +4,9 @@ abstract class Formula extends ArithmeticExpression {
     List<ArithmeticExpression> terms
     Closure<Number> operation
     String symbol
+    private mc= [compare:{ArithmeticExpression a,ArithmeticExpression b-> getSortOrder(a)==getSortOrder(b)? 0:
+            getSortOrder(a)<getSortOrder(b)? -1: 1}] as Comparator
+
 
     boolean equals(o) {
         if (this.is(o)) return true
@@ -34,5 +37,36 @@ abstract class Formula extends ArithmeticExpression {
         result = 31 * result + (operation != null ? operation.hashCode() : 0)
         result = 31 * result + (symbol != null ? symbol.hashCode() : 0)
         return result
+    }
+
+    /**
+     * Sorts the terms into a standardized order i.e. putting constants before other expressions
+     */
+    void sort(){
+        terms.sort(mc)
+    }
+
+    /**
+     * Returns the place a given type of expression should have when sorted
+     *
+     * @param x The expression
+     * @return  It's place in a sorted array of expressions
+     */
+    static int getSortOrder(ArithmeticExpression x){
+        switch (x){
+            case Num: return 0
+            case Var: return 1
+            case Multiply: return 2
+            case Divide: return 3
+            case Log: return 4
+            case Sin: return 5
+            case Cos: return 6
+            case Tan: return 7
+            case Csc: return 8
+            case Sec: return 9
+            case Cot: return 10
+            case Exponent: return 11
+            case Add: return 12
+        }
     }
 }

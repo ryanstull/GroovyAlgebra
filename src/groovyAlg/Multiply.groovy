@@ -9,6 +9,11 @@ class Multiply extends MultiOp {
     Closure<Number> operation = { a, b -> a * b }
     Number identity = 1
 
+    /**
+     * @return The derivative of a multiplication of terms
+     * For example if there are 3 terms... f(x)g(x)h(x) the derivative is
+     * f'(x)g(x)h(x)+f(x)g'(x)h(x)+f(x)g(x)h'(x)
+     */
     ArithmeticExpression derivative() {
         new Add(terms.collect { a ->
             new Multiply([a.derivative()] + terms.grep {
@@ -17,6 +22,9 @@ class Multiply extends MultiOp {
         }).simplify()
     }
 
+    /**
+     * {@inheritDoc}
+     */
     ArithmeticExpression simplify() {
         Multiply rtrn = this.clone()
         def newTerms = rtrn.terms
@@ -92,11 +100,13 @@ class Multiply extends MultiOp {
         if (rtrn.terms.size()==1){
             return rtrn.terms[0]
         }
-        //TODO add ordering for terms in multiplication
+
+        rtrn.sort()
+
         return rtrn
     }
 
     String toString() {
-        terms.collect { it.toString() }.join(symbol)
+        terms.collect { it.toString() }.join()
     }
 }

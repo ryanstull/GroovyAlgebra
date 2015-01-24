@@ -1,6 +1,10 @@
 package groovyAlg
 /**
  * Created by ryan on 1/13/15.
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2015-1-13
+ * @version 1.1
  */
 abstract class ArithmeticExpression extends Expression {
 
@@ -12,8 +16,17 @@ abstract class ArithmeticExpression extends Expression {
      */
     abstract Number evaluate(Number x)
 
+    /**
+     * Replaces all instances of a variable in the given expression with the given expression
+     *
+     * @param f The expression to replace the variable in this expression
+     * @return The new expression with the old variable subbed out for the given expression
+     */
     abstract ArithmeticExpression compose(ArithmeticExpression f)
 
+    /**
+     * @return A simplified version of the given arithmetic expression
+     */
     abstract ArithmeticExpression simplify()
 
     /**

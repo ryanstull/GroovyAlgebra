@@ -2,13 +2,39 @@ package groovyAlg.parser
 
 import groovyAlg.*
 
+/**
+ * This class parses an expression
+ *
+ * A grammar which could define the arithmetic expression used in this library is
+ *
+ * ex1  ->  <ex2>([+-]<ex2>)*
+ * ex2  ->  <ex3>([*\/]<ex3>)*
+ * ex3  ->  <ex4>([^]<ex4>)
+ * ex4  ->  <num> | <var> | <trig>(<ex1>) | log(<ex1>) | (<ex1>)
+ * trig ->  sin | cos | tan | csc | sec | cot
+ * num  ->  [0-9]*
+ * var  ->  x
+ *
+ * Not that only ex1,ex2,ex3,and ex4 are needed to parse the expression and num,var and trig are combined into ex4
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2015-01-08
+ * @version 1.0
+ */
 class Parser {
     Lex_Analyzer lexer;
 
-    Parser(String formula) {
+
+    private Parser(String formula) {
         lexer = new Lex_Analyzer(formula)
     }
 
+    /**
+     * Returns an arithmetic expression that the given string represents
+     *
+     * @param formula A string representation of the formula
+     * @return An arithmetic expression representing the given formula
+     */
     static ArithmeticExpression parse(String formula) {
         Parser p = new Parser(formula)
         p.lexer.lex()

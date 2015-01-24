@@ -3,6 +3,13 @@ package groovyAlg.parser
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
 
+/**
+ * This class is works in conjunction with the parser in order to parse and expression
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2015-01-08
+ * @version 1.0
+ */
 class Lex_Analyzer {
     String input
     String lexeme
@@ -182,6 +189,9 @@ class Lex_Analyzer {
 
 }
 
+/**
+ * This enum contains the types of classes a token can be
+ */
 enum TOKEN_TYPE {
     NUM, VAR,
     ADD, SUB, MULT, DIV, POW,
@@ -191,6 +201,9 @@ enum TOKEN_TYPE {
     END
 }
 
+/**
+ * This enum contains the different types that a character can be
+ */
 enum CHAR_CLASS {
     LETTER, DIGIT, OTHER, END
 }

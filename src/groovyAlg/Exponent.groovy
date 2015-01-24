@@ -2,12 +2,22 @@ package groovyAlg
 
 import groovy.transform.InheritConstructors
 
+/**
+ * This class represents exponentiation
+ *
+ * @author  Ryan Stull <rstull1200@gmail.com>
+ * @since   2014-12-12
+ * @vesion  1.0
+ */
 @InheritConstructors
 class Exponent extends BinaryOp {
 
     String symbol = "^"
     Closure<Number> operation = { a, b -> a**b }
 
+    /**
+     * @return The derivative of an exponentiation where the power is a constant
+     */
     ArithmeticExpression derivative() {
         if (terms[1] instanceof Num && !(terms[0] instanceof Num)) {
             return new Multiply([new Num(terms[1].num), new Exponent(terms[0],new Num(terms[1].num - 1)), terms[0].derivative()])
@@ -15,6 +25,9 @@ class Exponent extends BinaryOp {
         throw new Exception('Invalid derivative')
     }
 
+    /**
+     * {@inheritDoc}
+     */
     ArithmeticExpression simplify() {
         Exponent rtrn = this.clone()
         def newTerms = rtrn.terms
