@@ -20,10 +20,22 @@ class Log extends BinaryOp {
     }
 
     String toString() {
-        "${getSymbol()}(${terms[0].toString()})"
+        if(terms[0] instanceof Num){
+            switch (terms[0].num){
+                case Math.E:
+                    return "ln(${terms[0].toString()})"
+
+                case 2:
+                    return "lg(${terms[0].toString()})"
+
+                default:
+                    return "${getSymbol()}_${terms[0]}(${terms[1]})"
+            }
+        }
     }
 
     ArithmeticExpression simplify() {
         this
     }
+
 }

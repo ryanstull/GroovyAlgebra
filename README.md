@@ -23,5 +23,12 @@ or differentiate it!
 def x2 = x.derivative()
 ```
 
+Also expressions are automatically simplified
+
+```
+def x3 = Parser.parse("2*x*3*x^3")
+assert x3.ToString() == "6x^4"
+```
+
 That's all for now!
 
